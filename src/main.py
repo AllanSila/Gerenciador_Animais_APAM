@@ -49,13 +49,25 @@ def main(page: ft.Page):
             border_radius=100,
         )
     )
+    # JOTA: <FUNÇÃO PARA ATUALIZAR A IMAGEM NO PERFIL DO USUARIO>
+    def perfil_picked(e):
+        if e.files:
+            img_perfil.content.src = e.files[0].path
+            img_perfil.update()
+
+    file_picker = ft.FilePicker(
+        on_result=perfil_picked
+    )
 
     upload_img = ft.Container(
         col=8,
         content=ft.Row(
             controls=[
-                ft.Text("Carregar foto"),
-                ft.Icon(ft.icons.FOLDER_OPEN_OUTLINED, color=ft.colors.BLACK)
+                #ft.Text("Carregar foto"), # JOTA: <NÃO É NECESSÁRIO>
+                #ft.Icon(ft.icons.FOLDER_OPEN_OUTLINED, color=ft.colors.BLACK) # JOTA: <NÃO É NECESSÁRIO>
+                ---------------------------------------------------------------------------------------------------
+                # JOTA: <ADICIONA UM BOLTÃO PARA ABRIR O SELETOR DE AQUIVO PARA UPAR A IMAGEM>
+                ft.ElevatedButton("Escolher Foto", on_click=lambda _: file_picker.pick_files(allow_multiple=False))  
             ],
             alignment=ft.MainAxisAlignment.CENTER  # Centraliza o conteúdo do Row
         ),
@@ -307,9 +319,9 @@ def main(page: ft.Page):
         ],
         expand=True
     )
-
-    page.add( 
-        layout,
-    )
+    
+    page.overlay.append(file_picker) # JOTA: <CÓDIGO PARA FAZER A FUNÇÃO FILEPICKER APARECER NA PÁGINA DA APLICAÇÃO>    
+    page.add(layout)
+    
 
 ft.app(target=main)
